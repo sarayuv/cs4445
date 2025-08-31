@@ -1,0 +1,5 @@
+pytest
+mypy
+flask
+pandas
+pandas-stubs

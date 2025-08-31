@@ -13,3 +13,12 @@ hw1/__pycache__/test_2.cpython-313-pytest-8.4.1.pyc
 hw1/__pycache__/test_3.cpython-313-pytest-8.3.5.pyc
 hw1/__pycache__/test_3.cpython-313-pytest-8.4.1.pyc
 hw1/__pycache__/test_4.cpython-313-pytest-8.3.5.pyc
+.DS_Store
+HW2/grading.py
+HW2/test_1.py
+.gitignore
+HW2/test_2.py
+HW2/test_3.py
+.gitignore
+HW2/test_4.py
+HW2/.vscode/settings.json
