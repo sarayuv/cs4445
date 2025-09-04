@@ -64,7 +64,7 @@ def Terms_and_Conditions():
     '''
     #*******************************************
     # CHANGE HERE: if you have read and agree with the term above, change "False" to "True".
-    Read_and_Agree = False
+    Read_and_Agree = True
     #*******************************************
     return Read_and_Agree
 #--------------------------
@@ -90,7 +90,7 @@ def Terms_and_Conditions():
 def hello_page()->str:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    webpage = "Hello World!"
     #########################################
     return webpage
 
@@ -121,7 +121,7 @@ The website will be hosted in your computer and you could copy the testing URL s
 def rand_page()->str:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    webpage = str(random.random())
     #########################################
     return webpage
 
@@ -153,7 +153,7 @@ Open the browser to visit the website with relative path "/rand".
 def vote(ID:int)->str:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    webpage = f"Thank you for voting {ID}"
     #########################################
     return webpage
 
@@ -182,7 +182,7 @@ Open the browser to visit the website with relative path "/vote/2".
 def create_template()->Template:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    t = Template("Hello, {{ username }}!")
     #########################################
     return t
 
@@ -207,7 +207,7 @@ Please type the following command in your terminal to test the correctness of yo
 def render(t:Template, username:str)->str:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    webpage = t.render(username=username)
     #########################################
     return webpage
 
@@ -234,7 +234,7 @@ def render_file(filename:str, username:str)->str:
         pass
         #########################################
         ## INSERT YOUR CODE HERE (4 points)
-    
+        webpage = render_template(filename, username=username)
         #########################################
     return webpage
 

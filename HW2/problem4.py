@@ -42,7 +42,7 @@ from problem3 import compute_ratings
 def load_G(filename_G:str='ncaa_games.csv')->pd.DataFrame:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    G = pd.read_csv(filename_G)
     #########################################
     return G
 
@@ -77,7 +77,8 @@ Please type the following command in your terminal to test the correctness of yo
 def load_teams(filename_teams:str='ncaa_teams.csv')->pd.DataFrame:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    T = pd.read_csv(filename_teams)
+    T['ID'] = T.index
     #########################################
     return T
 
@@ -112,8 +113,9 @@ Please type the following command in your terminal to test the correctness of yo
 
 def compute_elo(G:pd.DataFrame, n:int, K:float=16.0)->pd.DataFrame:
     #########################################
-    ## INSERT YOUR CODE HERE (10 points)
-    
+    ## Compute Elo ratings using compute_ratings from problem3
+    ratings = compute_ratings(G, n, K)
+    R = pd.DataFrame({'ID': list(range(n)), 'Elo': ratings})
     #########################################
     return R
 
@@ -139,7 +141,7 @@ Please type the following command in your terminal to test the correctness of yo
 def merge_team(T:pd.DataFrame, R:pd.DataFrame)->pd.DataFrame:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    X = pd.merge(T, R, on='ID')
     #########################################
     return X
 
@@ -165,7 +167,7 @@ Please type the following command in your terminal to test the correctness of yo
 def rank_teams_Elo(X:pd.DataFrame)->pd.DataFrame:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    Y = X.sort_values(by='Elo', ascending=False)
     #########################################
     return Y
 

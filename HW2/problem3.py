@@ -31,7 +31,7 @@ import pandas as pd
 def compute_EA(RA:float, RB:float)->float:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    EA = 1 / (1 + 10 ** ((RB - RA) / 400))
     #########################################
     return EA
 
@@ -55,7 +55,7 @@ Please type the following command in your terminal to test the correctness of yo
 def compute_EB(EA:float)->float:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    EB = 1 - EA
     #########################################
     return EB
 
@@ -82,7 +82,7 @@ Please type the following command in your terminal to test the correctness of yo
 def update_RA(RA:float, SA:int, EA:float, K:float=16.0)->float:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    RA = RA + K * (SA - EA)
     #########################################
     return RA
 
@@ -109,7 +109,7 @@ Please type the following command in your terminal to test the correctness of yo
 def update_RB(RB:float, SB:int, EB:float, K:float=16.0)->float:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    RB = RB + K * (SB - EB)
     #########################################
     return RB
 
@@ -145,7 +145,12 @@ def compute_ratings(G:pd.DataFrame, n:int, K:float=16.0)->list[float]:
         SA,SB = 1,0 # the game result: Player A wins, Player B loses
         #########################################
         ## INSERT YOUR CODE HERE (5 points)
-    
+        RA = R[A]
+        RB = R[B]
+        EA = compute_EA(RA, RB)
+        EB = compute_EB(EA)
+        R[A] = update_RA(RA, SA, EA, K)
+        R[B] = update_RB(RB, SB, EB, K)
         #########################################
     return R
 

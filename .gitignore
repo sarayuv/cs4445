@@ -22,3 +22,13 @@ HW2/test_3.py
 .gitignore
 HW2/test_4.py
 HW2/.vscode/settings.json
+HW2/__pycache__/test_1.cpython-313-pytest-8.3.5.pyc
+.gitignore
+HW2/__pycache__/problem1.cpython-313.pyc
+.gitignore
+HW2/__pycache__/test_2.cpython-313-pytest-8.3.5.pyc
+HW2/__pycache__/problem2.cpython-313.pyc
+HW2/__pycache__/problem3.cpython-313.pyc
+HW2/__pycache__/test_3.cpython-313-pytest-8.3.5.pyc
+HW2/__pycache__/problem4.cpython-313.pyc
+HW2/__pycache__/test_4.cpython-313-pytest-8.3.5.pyc

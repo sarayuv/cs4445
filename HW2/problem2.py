@@ -34,7 +34,10 @@ data = [] # create an empty list, we will use this list to store all the user vo
 def sample_pair(n:int)->tuple[int, int]:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    A = random.randint(0, n-1)
+    B = random.randint(0, n-1)
+    while A == B:
+        B = random.randint(0, n-1)
     #########################################
     return A, B
 
@@ -58,7 +61,8 @@ Please type the following command in your terminal to test the correctness of yo
 def facemash()->str:
     #########################################
     ## INSERT YOUR CODE HERE (10 points)
-    
+    A, B = sample_pair(9)
+    webpage = render_template('index.html', A=A, B=B)
     #########################################
     return webpage
 
@@ -93,7 +97,8 @@ Please type the following command in your terminal to test the correctness of yo
 def vote(win_id:int, lose_id:int)->Response:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    response = redirect(url_for('facemash'))
+    data.append((win_id, lose_id))
     #########################################
     return response
 
