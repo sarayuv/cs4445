@@ -1,0 +1,6 @@
+pytest
+mypy
+numpy
+flask
+pandas
+pandas-stubs
