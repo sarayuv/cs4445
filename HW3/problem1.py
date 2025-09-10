@@ -62,7 +62,7 @@ def Terms_and_Conditions():
     '''
     #*******************************************
     # CHANGE HERE: if you have read and agree with the term above, change "False" to "True".
-    Read_and_Agree = False
+    Read_and_Agree = True
     #*******************************************
     return Read_and_Agree
 #--------------------------
@@ -91,7 +91,7 @@ def Terms_and_Conditions():
 def load_webpages(filename:str)->pd.DataFrame:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    X = pd.read_csv(filename)
     #########################################
     return X
 
@@ -130,7 +130,7 @@ Please type the following command in your terminal to test the correctness of yo
 def count_word_frequency(X:pd.DataFrame, keyword:str)->pd.DataFrame:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    X['Count'] = X['Description'].str.lower().str.count(keyword.lower())
     #########################################
     return X
 
@@ -158,7 +158,7 @@ Please type the following command in your terminal to test the correctness of yo
 def rank_word_frequency(X1:pd.DataFrame)->pd.DataFrame:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    R1 = X1.sort_values(by='Count', ascending=False)
     #########################################
     return R1
 

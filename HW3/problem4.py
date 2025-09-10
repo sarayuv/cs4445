@@ -34,7 +34,7 @@ import pandas as pd
 def count_out_links(A:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    d = np.sum(A, axis=0)
     #########################################
     return d
 
@@ -73,7 +73,8 @@ Please type the following command in your terminal to test the correctness of yo
 def remove_sink_nodes(A:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    d = count_out_links(A)
+    A = A + (d == 0).astype(int)
     #########################################
     return A
 
@@ -102,7 +103,8 @@ Please type the following command in your terminal to test the correctness of yo
 def compute_S(A_:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    S = A_ / np.sum(A_, axis=0, keepdims=True)
+    S[np.isnan(S)] = 0
     #########################################
     return S
 
@@ -132,7 +134,8 @@ Please type the following command in your terminal to test the correctness of yo
 def compute_G(S:np.ndarray, a:float)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (6 points)
-    
+    n = S.shape[0]
+    G = a * S + (1 - a) * (1 / n) * np.ones_like(S)
     #########################################
     return G
 
@@ -163,7 +166,7 @@ Please type the following command in your terminal to test the correctness of yo
 def random_walk_one_step(G:np.ndarray, x:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (6 points)
-    
+    y = G @ x
     #########################################
     return y
 
@@ -193,7 +196,7 @@ Please type the following command in your terminal to test the correctness of yo
 def all_close(x:np.ndarray, y:np.ndarray, tol:float=0.01)->bool:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    c = np.allclose(x, y, atol=tol)
     #########################################
     return c
 
@@ -227,7 +230,11 @@ Please type the following command in your terminal to test the correctness of yo
 def random_walk(G:np.ndarray, x:np.ndarray, tol:float=0.01, max_steps:int=100)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (6 points)
-    
+    for _ in range(max_steps):
+        y = G @ x
+        if np.allclose(x, y, atol=tol):
+            break
+        x = y
     #########################################
     return x
 
@@ -256,7 +263,7 @@ Please type the following command in your terminal to test the correctness of yo
 def add_column_pagerank(X2:pd.DataFrame, x:np.ndarray)->pd.DataFrame:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    X2['PageRank'] = x
     #########################################
     return X2
 
@@ -284,7 +291,7 @@ Please type the following command in your terminal to test the correctness of yo
 def rank_pages(X3:pd.DataFrame)->pd.DataFrame:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    R3 = X3.sort_values(by='PageRank', ascending=False)
     #########################################
     return R3
 

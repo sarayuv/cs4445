@@ -30,7 +30,7 @@ import numpy as np
 def ndarray()->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (2 points)
-    
+    Z = np.array([[1, 2, 3], [4, 5, 6]])
     #########################################
     return Z
 
@@ -54,7 +54,7 @@ Please type the following command in your terminal to test the correctness of yo
 def float_array()->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (2 points)
-    
+    Y = np.array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
     #########################################
     return Y
 
@@ -79,7 +79,7 @@ Please type the following command in your terminal to test the correctness of yo
 def get_shape(X:np.ndarray)->tuple[int, int]:
     #########################################
     ## INSERT YOUR CODE HERE (2 points)
-    
+    r, c = X.shape
     #########################################
     return r, c
 
@@ -106,7 +106,7 @@ Please type the following command in your terminal to test the correctness of yo
 def all_one_matrix(r:int, c:int)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (2 points)
-    
+    O = np.ones((r, c))
     #########################################
     return O
 
@@ -134,7 +134,7 @@ Please type the following command in your terminal to test the correctness of yo
 def mat_sum(X:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    s = np.sum(X, axis=0)
     #########################################
     return s
 
@@ -167,7 +167,7 @@ Please type the following command in your terminal to test the correctness of yo
 def mat_scalar_multiplication(X:np.ndarray, a:float)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    S = a * X
     #########################################
     return S
 
@@ -201,7 +201,7 @@ Please type the following command in your terminal to test the correctness of yo
 def matrix_vector_multiplication(X:np.ndarray, y:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    z = np.dot(X, y)
     #########################################
     return z
 
@@ -227,7 +227,7 @@ Please type the following command in your terminal to test the correctness of yo
 def find_zeros(x:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    d = np.where(x == 0)[0]
     #########################################
     return d
 
@@ -256,7 +256,7 @@ Please type the following command in your terminal to test the correctness of yo
 def diag_mat(x:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (2 points)
-    
+    D = np.diag(x)
     #########################################
     return D
 

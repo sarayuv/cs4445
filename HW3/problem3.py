@@ -34,7 +34,7 @@ import pandas as pd
 def count_in_links(A:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    c = np.sum(A, axis=1)
     #########################################
     return c
 
@@ -59,7 +59,7 @@ Please type the following command in your terminal to test the correctness of yo
 def add_column_inlinks(X1:pd.DataFrame, c:np.ndarray)->pd.DataFrame:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    X1['Inlinks'] = c
     #########################################
     return X1
 
@@ -87,7 +87,7 @@ Please type the following command in your terminal to test the correctness of yo
 def rank_inlinks(X2:pd.DataFrame)->pd.DataFrame:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    R2 = X2.sort_values(by='Inlinks', ascending=False)
     #########################################
     return R2
 
