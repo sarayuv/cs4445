@@ -1,0 +1,5 @@
+pytest
+mypy
+numpy
+flask
+torch
