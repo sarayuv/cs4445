@@ -61,7 +61,7 @@ def Terms_and_Conditions():
     '''
     #*******************************************
     # CHANGE HERE: if you have read and agree with the term above, change "False" to "True".
-    Read_and_Agree = False
+    Read_and_Agree = True
     #*******************************************
     return Read_and_Agree
 #--------------------------
@@ -93,7 +93,7 @@ def Terms_and_Conditions():
 def transpose(X:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    Xt = X.T
     #########################################
     return Xt
 
@@ -120,7 +120,7 @@ Please type the following command in your terminal to test the correctness of yo
 def identity_matrix(n:int)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    I = np.eye(n)
     #########################################
     return I
 
@@ -160,7 +160,7 @@ Please type the following command in your terminal to test the correctness of yo
 def matrix_multiplication(X:np.ndarray, Y:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (6 points)
-    
+    Z = np.dot(X, Y)
     #########################################
     return Z
 
@@ -202,7 +202,7 @@ Please type the following command in your terminal to test the correctness of yo
 def matrix_inverse(X:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (6 points)
-    
+    Xi = np.linalg.inv(X)
     #########################################
     return Xi
 
@@ -231,7 +231,7 @@ Please type the following command in your terminal to test the correctness of yo
 def is_missing(x:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    m = np.isnan(x)
     #########################################
     return m
 
@@ -258,7 +258,7 @@ Please type the following command in your terminal to test the correctness of yo
 def inverse(m:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    m_ = ~m
     #########################################
     return m_
 
@@ -289,7 +289,7 @@ Please type the following command in your terminal to test the correctness of yo
 def subset_vector(x:np.ndarray, m:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    x_m = x[m]
     #########################################
     return x_m
 
@@ -323,7 +323,7 @@ Please type the following command in your terminal to test the correctness of yo
 def subset_matrix(X:np.ndarray, m:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (3 points)
-    
+    X_m = X[m]
     #########################################
     return X_m
 
