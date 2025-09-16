@@ -33,7 +33,7 @@ import numpy as np
 def least_square(X:np.ndarray, y:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (10 points)
-    
+    w = np.linalg.solve(X.T @ X, X.T @ y)
     #########################################
     return w
 
@@ -59,7 +59,8 @@ Please type the following command in your terminal to test the correctness of yo
 def ridge_regression(X:np.ndarray, y:np.ndarray, a:float=0.0001)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (10 points)
-    
+    p = X.shape[1]
+    w = np.linalg.solve(X.T @ X + a * np.eye(p), X.T @ y)
     #########################################
     return w
 
