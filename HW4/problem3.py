@@ -48,7 +48,9 @@ from problem2 import *
 def extract_user_j(R_j:np.ndarray, I:np.ndarray)->tuple[np.ndarray, np.ndarray]:
     #########################################
     ## INSERT YOUR CODE HERE (7 points)
-    
+    mask = ~np.isnan(R_j)
+    X = I[mask]
+    y = R_j[mask]
     #########################################
     return X, y
 
@@ -75,7 +77,7 @@ Please type the following command in your terminal to test the correctness of yo
 def train_user_j(X:np.ndarray, y:np.ndarray, a:float=1e-05)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (7 points)
-    
+    Uj = ridge_regression(X, y, a)
     #########################################
     return Uj
 
@@ -136,7 +138,7 @@ Please type the following command in your terminal to test the correctness of yo
 def update_U(R:np.ndarray, I:np.ndarray, a:float=1e-05)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (7 points)
-    
+    U = np.array([train_user_j(*extract_user_j(R[:,j], I), a) for j in range(R.shape[1])])
     #########################################
     return U
 
@@ -179,7 +181,9 @@ Please type the following command in your terminal to test the correctness of yo
 def extract_item_i(Ri_:np.ndarray, U:np.ndarray)->tuple[np.ndarray, np.ndarray]:
     #########################################
     ## INSERT YOUR CODE HERE (7 points)
-    
+    mask = ~np.isnan(Ri_)
+    X = U[mask]
+    y = Ri_[mask]
     #########################################
     return X, y
 
@@ -205,7 +209,7 @@ Please type the following command in your terminal to test the correctness of yo
 def train_item_i(X:np.ndarray, y:np.ndarray, a:float=1e-05)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (7 points)
-    
+    Ii = ridge_regression(X, y, a)
     #########################################
     return Ii
 
@@ -232,7 +236,7 @@ Please type the following command in your terminal to test the correctness of yo
 def update_I(R:np.ndarray, U:np.ndarray, a:float=1e-05)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (7 points)
-    
+    I = np.array([train_item_i(*extract_item_i(R[i,:], U), a) for i in range(R.shape[0])])
     #########################################
     return I
 
@@ -266,7 +270,8 @@ def collaborative_filtering(R:np.ndarray, k:int=5, a:float=1e-05, n_steps:int=20
     for _ in range(n_steps): # repeat n_steps
         #########################################
         ## INSERT YOUR CODE HERE (8 points)
-    
+        U = update_U(R, I, a)
+        I = update_I(R, U, a)
         #########################################
     return I, U
 
