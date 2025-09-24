@@ -32,7 +32,7 @@ from model import CNN
 def compute_z(x:th.Tensor, m:th.nn.Module)->th.Tensor:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    z = m(x)
     #########################################
     return z
 
@@ -57,7 +57,7 @@ Please type the following command in your terminal to test the correctness of yo
 def compute_L(z:th.Tensor, y:th.Tensor)->th.Tensor:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    L = th.nn.BCEWithLogitsLoss()(z, y)
     #########################################
     return L
 
@@ -80,7 +80,8 @@ Please type the following command in your terminal to test the correctness of yo
 def update_parameters(optimizer:th.optim.Optimizer)->None:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    optimizer.step()
+    optimizer.zero_grad()
     pass 
     #########################################
 '''---------- Test This Function -----------------
@@ -114,7 +115,12 @@ def train(data_loader:th.utils.data.DataLoader, alpha:float=0.001, n_epoch:int=1
             y=mini_batch[1] # the labels of the images in a mini-batch
             #########################################
             ## INSERT YOUR CODE HERE (5 points)
-    
+            z = compute_z(x, m)
+            L = compute_L(z, y)
+            L.backward()
+            update_parameters(optimizer)
+            for param in m.parameters():
+                param.grad = None
             #########################################
     return m
 

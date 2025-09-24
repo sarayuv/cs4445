@@ -61,7 +61,7 @@ def Terms_and_Conditions():
     '''
     #*******************************************
     # CHANGE HERE: if you have read and agree with the term above, change "False" to "True".
-    Read_and_Agree = False
+    Read_and_Agree = True
     #*******************************************
     return Read_and_Agree
 #--------------------------
@@ -91,7 +91,7 @@ We will use binary cross entropy as the loss function and stochastic gradient de
 def compute_z(x:np.ndarray, w:np.ndarray, b:float)->float:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    z = np.dot(w, x) + b
     #########################################
     return z
 
@@ -114,7 +114,7 @@ Please type the following command in your terminal to test the correctness of yo
 def compute_dz_db()->float:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    dz_db = 1.0
     #########################################
     return dz_db
 
@@ -138,7 +138,7 @@ Please type the following command in your terminal to test the correctness of yo
 def compute_dz_dw(x:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    dz_dw = x
     #########################################
     return dz_dw
 
@@ -166,7 +166,10 @@ Please type the following command in your terminal to test the correctness of yo
 def compute_L(z:float, y:int)->float:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    if z > 500:
+        L = z * (1 - y)
+    else:
+        L = np.log(1 + np.exp(z)) - y * z
     #########################################
     return L
 
@@ -191,7 +194,10 @@ Please type the following command in your terminal to test the correctness of yo
 def compute_dL_dz(z:float, y:int)->float:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    if z > 500:
+        dL_dz = 1 - y
+    else:
+        dL_dz = (np.exp(z) / (1 + np.exp(z))) - y
     #########################################
     return dL_dz
 
@@ -216,7 +222,7 @@ Please type the following command in your terminal to test the correctness of yo
 def compute_dL_db(dL_dz:float, dz_db:float)->float:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    dL_db = dL_dz * dz_db
     #########################################
     return dL_db
 
@@ -241,7 +247,7 @@ Please type the following command in your terminal to test the correctness of yo
 def compute_dL_dw(dL_dz:float, dz_dw:np.ndarray)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    dL_dw = dL_dz * dz_dw
     #########################################
     return dL_dw
 
@@ -270,7 +276,10 @@ Please type the following command in your terminal to test the correctness of yo
 def backward(x:np.ndarray, y:int, z:float)->tuple[np.ndarray, float]:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    dL_dz = compute_dL_dz(z, y)
+    dz_dw = compute_dz_dw(x)
+    dL_dw = compute_dL_dw(dL_dz, dz_dw)
+    dL_db = dL_dz
     #########################################
     return dL_dw, dL_db
 
@@ -296,7 +305,7 @@ Please type the following command in your terminal to test the correctness of yo
 def update_b(b:float, dL_db:float, alpha:float=0.001)->float:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    b = b - alpha * dL_db
     #########################################
     return b
 
@@ -322,7 +331,7 @@ Please type the following command in your terminal to test the correctness of yo
 def update_w(w:np.ndarray, dL_dw:np.ndarray, alpha:float=0.001)->np.ndarray:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    w = w - alpha * dL_dw
     #########################################
     return w
 
@@ -360,7 +369,10 @@ def train(X:np.ndarray, Y:np.ndarray, alpha:float=0.001, n_epoch:int=100)->tuple
             y=Y[i] # the label of the i-th random sample
             #########################################
             ## INSERT YOUR CODE HERE (5 points)
-    
+            z = compute_z(x, w, b)
+            dL_dw, dL_db = backward(x, y, z)
+            w = update_w(w, dL_dw, alpha)
+            b = update_b(b, dL_db, alpha)
             #########################################
     return w, b
 
@@ -386,7 +398,7 @@ Please type the following command in your terminal to test the correctness of yo
 def predict(x:np.ndarray, w:np.ndarray, b:float)->int:
     #########################################
     ## INSERT YOUR CODE HERE (5 points)
-    
+    y = 1 if (1 / (1 + np.exp(- (np.dot(w, x) + b)))) >= 0.5 else 0
     #########################################
     return y
 
