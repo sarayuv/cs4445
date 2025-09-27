@@ -62,7 +62,7 @@ def Terms_and_Conditions():
     '''
     #*******************************************
     # CHANGE HERE: if you have read and agree with the term above, change "False" to "True".
-    Read_and_Agree = False
+    Read_and_Agree = True
     #*******************************************
     return Read_and_Agree
 #--------------------------
@@ -123,7 +123,9 @@ class RandomPlayer(Player):
     def choose_a_move(self, g, s):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        valid_moves = g.get_valid_moves(s)
+        idx = np.random.choice(len(valid_moves))
+        r, c = valid_moves[idx]
         ##############################
         return r, c
         
@@ -352,6 +354,10 @@ Add one child node for each of the valid next moves from the current game state.
     def expand(self, g):
         ##############################
         ## INSERT YOUR CODE HERE (6.0 points)
+        move_state_pairs = g.get_move_state_pairs(self.s)
+        for m, s in move_state_pairs:
+            child_node = MMNode(s=s, p=self, m=m, v=None)
+            self.c.append(child_node)
         pass 
         ##############################
         
@@ -535,7 +541,11 @@ Here are the detailed attribute values of tree nodes
     def build_tree(self, g):
         ##############################
         ## INSERT YOUR CODE HERE (9.0 points)
-        pass 
+        if g.check_game(self.s) is not None:
+            return
+        self.expand(g)
+        for child in self.c:
+            child.build_tree(g)
         ##############################
         
         
@@ -692,7 +702,17 @@ In the current node, it is "X" player's turn, so the value of the current node i
     def compute_v(self, g):
         ##############################
         ## INSERT YOUR CODE HERE (15.0 points)
-        pass 
+        game_result = g.check_game(self.s)
+        if game_result is not None:
+            self.v = game_result
+            return
+        for child in self.c:
+            child.compute_v(g)
+        if self.s.x == 1:
+            self.v = max(child.v for child in self.c)
+        else:
+            self.v = min(child.v for child in self.c)
+        pass
         ##############################
         
         
@@ -764,7 +784,11 @@ So in this example, the next move should be (r=2, c=0)
     def choose_optimal_move(self, n):
         ##############################
         ## INSERT YOUR CODE HERE (7.5 points)
-        
+        if n.s.x == 1:
+            optimal_child = max(n.c, key=lambda child: child.v)
+        else:
+            optimal_child = min(n.c, key=lambda child: child.v)
+        r, c = optimal_child.m
         ##############################
         return r, c
         
@@ -804,7 +828,10 @@ s.x: the role of the player, 1 if you are the "X" player in the game
     def choose_a_move(self, g, s):
         ##############################
         ## INSERT YOUR CODE HERE (7.5 points)
-        
+        root = MMNode(s)
+        root.build_tree(g)
+        root.compute_v(g)
+        r, c = self.choose_optimal_move(root)
         ##############################
         return r, c
         
