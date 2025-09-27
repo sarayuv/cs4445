@@ -90,7 +90,7 @@ return Result 1 and Result 2.
     def sample(self, g):
         ##############################
         ## INSERT YOUR CODE HERE (4.0 points)
-        
+        e = g.run_a_game(x_player=RandomPlayer(), o_player=RandomPlayer(), s=self.s)
         ##############################
         return e
         
@@ -192,7 +192,12 @@ return Result 1 and Result 2.
     def expand(self, g):
         ##############################
         ## INSERT YOUR CODE HERE (8.0 points)
-        
+        valid_moves = g.get_move_state_pairs(self.s)
+        self.c = []
+        for m, s in valid_moves:
+            child = MCNode(s, p=self, m=m)
+            self.c.append(child)
+        c = self.c[0]
         ##############################
         return c
         
@@ -294,7 +299,11 @@ Root Node ---> |--> Child Node C -->|--> Grand Child C1 (v=0,N=1)
     def backprop(self, e):
         ##############################
         ## INSERT YOUR CODE HERE (8.0 points)
-        pass 
+        node = self
+        while node is not None:
+            node.v += e
+            node.N += 1
+            node = node.p
         ##############################
         
         
@@ -329,7 +338,12 @@ A larger UCB score means that the child node leads to a better average pay-offs 
         vi= self.v # the sum of game results after choosing the i-th child node (self)
         ##############################
         ## INSERT YOUR CODE HERE (4.0 points)
-        
+        if ni == 0:
+            b = float('inf')
+        else:
+            exploitation = x * vi / ni
+            exploration = np.sqrt(np.log(N) / ni)
+            b = exploitation + c * exploration
         ##############################
         return b
         
@@ -370,7 +384,9 @@ When there is a tie in the UCB score, use the index of the child node as the tie
     def select_a_child(self):
         ##############################
         ## INSERT YOUR CODE HERE (4.0 points)
-        
+        scores = [child.compute_UCB(self.N, self.s.x) for child in self.c]
+        max_index = scores.index(max(scores))
+        c = self.c[max_index]
         ##############################
         return c
         
@@ -432,7 +448,10 @@ When there is a tie in the UCB score, use the index of the child node as the tie
     def selection(self):
         ##############################
         ## INSERT YOUR CODE HERE (8.0 points)
-        
+        if not self.c:
+            return self
+        c = self.select_a_child()
+        l = c.selection()
         ##############################
         return l
         
@@ -657,7 +676,14 @@ When there is a tie in the UCB score, use the index of the child node as the tie
         for _ in range(n_iter):
             ##############################
             ## INSERT YOUR CODE HERE (4.0 points)
-            pass 
+            l = self.selection()
+            result = g.check_game(l.s)
+            if result is None:
+                c = l.expand(g)
+                e = c.sample(g)
+                c.backprop(e)
+            else:
+                l.backprop(result)
             ##############################
         
         
@@ -737,7 +763,12 @@ Choose Next Move: the agent will choose the child node with the largest N value 
     def choose_optimal_move(self, n):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        max_N = -1
+        r, c = None, None
+        for child in n.c:
+            if child.N > max_N:
+                max_N = child.N
+                r, c = child.m
         ##############################
         return r, c
         
@@ -775,7 +806,9 @@ s.x: the role of the player, 1 if you are the "X" player in the game
     def choose_a_move(self, g, s):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        n = MCNode(s)
+        n.build_tree(g, self.n_iter)
+        r, c = self.choose_optimal_move(n)
         ##############################
         return r, c
         
