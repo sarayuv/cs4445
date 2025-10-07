@@ -38,7 +38,7 @@ class QK_DotProduct(nn.Module):
     def forward(self, q, k):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        p = th.matmul(q, k.transpose(-2, -1))
         ##############################
         return p
         
@@ -68,7 +68,7 @@ class QK_ScaleDotProduct(nn.Module):
     def forward(self, p, d_k):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        s = p / th.sqrt(th.tensor(d_k, dtype=th.float32))
         ##############################
         return s
         
@@ -97,7 +97,7 @@ class QK_SoftMax(nn.Module):
     def forward(self, s):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        a = th.nn.functional.softmax(s, dim=-1)
         ##############################
         return a
         
@@ -127,7 +127,7 @@ class QKV_Attention(nn.Module):
     def forward(self, a, v):
         ##############################
         ## INSERT YOUR CODE HERE (10.0 points)
-        
+        z = th.matmul(a, v)
         ##############################
         return z
         
@@ -178,7 +178,9 @@ class AttentionHead(nn.Module):
     def compute_qkv(self, x):
         ##############################
         ## INSERT YOUR CODE HERE (10.0 points)
-        
+        q = th.matmul(x, self.Wq)
+        k = th.matmul(x, self.Wk)
+        v = th.matmul(x, self.Wv)
         ##############################
         return q, k, v
         
@@ -202,7 +204,11 @@ class AttentionHead(nn.Module):
     def forward(self, x):
         ##############################
         ## INSERT YOUR CODE HERE (10.0 points)
-        
+        q, k, v = self.compute_qkv(x)
+        p = self.layer1(q, k)
+        s = self.layer2(p, q.size(-1))
+        a = self.layer3(s)
+        z = self.layer4(a, v)
         ##############################
         return z
         
@@ -244,7 +250,7 @@ class ResidualLayer(nn.Module):
     def forward(self, x):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        y = x + self.f(x)
         ##############################
         return y
         

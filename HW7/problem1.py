@@ -63,7 +63,7 @@ def Terms_and_Conditions():
     '''
     #*******************************************
     # CHANGE HERE: if you have read and agree with the term above, change "False" to "True".
-    Read_and_Agree = False
+    Read_and_Agree = True
     #*******************************************
     return Read_and_Agree
 #--------------------------
@@ -113,7 +113,7 @@ class RNN(nn.Module):
     def compute_zt(self, xt, ht_1):
         ##############################
         ## INSERT YOUR CODE HERE (7.5 points)
-        
+        zt = xt @ self.U + ht_1 @ self.V + self.b_h
         ##############################
         return zt
         
@@ -137,7 +137,7 @@ class RNN(nn.Module):
     def compute_ht(self, zt):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        ht = th.tanh(zt)
         ##############################
         return ht
         
@@ -162,7 +162,8 @@ class RNN(nn.Module):
     def step(self, xt, ht_1):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        zt = xt @ self.U + ht_1 @ self.V + self.b_h
+        ht = th.tanh(zt)
         ##############################
         return ht
         
@@ -187,7 +188,7 @@ class RNN(nn.Module):
     def compute_z(self, ht):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        z = ht @ self.W + self.b
         ##############################
         return z
         
@@ -216,7 +217,9 @@ class RNN(nn.Module):
         ht = th.zeros((n, h)) # initialize the hidden states as all zero
         ##############################
         ## INSERT YOUR CODE HERE (7.5 points)
-        
+        for i in range(t):
+            ht = self.step(x[:,i,:], ht)
+        z = self.compute_z(ht)
         ##############################
         return z
         
@@ -242,7 +245,7 @@ class RNN(nn.Module):
     def compute_L(self, z, y):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        L = th.nn.functional.binary_cross_entropy_with_logits(z, y.float())
         ##############################
         return L
         
@@ -284,7 +287,11 @@ class RNN(nn.Module):
                 y=mini_batch[1] # the labels of the samples in a mini-batch
                 ##############################
                 ## INSERT YOUR CODE HERE (10.0 points)
-                pass 
+                ht = th.zeros(x.size(0), self.V.size(0))
+                z = self.forward(x)
+                L = self.compute_L(z, y)
+                L.backward()
+                self.update_parameters()
                 ##############################
         
         
@@ -311,7 +318,11 @@ class RNN(nn.Module):
     def predict(self, x):
         ##############################
         ## INSERT YOUR CODE HERE (5.0 points)
-        
+        ht = th.zeros(x.size(0), self.V.size(0))
+        for i in range(x.size(1)):
+            ht = self.step(x[:,i,:], ht)
+        z = self.compute_z(ht)
+        y_predict = (z>0).int()
         ##############################
         return y_predict
         
